@@ -1,3 +1,4 @@
+# test L70
 import serial, time
 
 SERIALPORT = "/dev/ttyUSB0"
