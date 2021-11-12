@@ -30,19 +30,19 @@ if ser.isOpen():
         time.sleep(2)
         ser.flushInput()
         ser.flushOutput()
-        # ser.write("1\r\n".encode('ascii'))
-        # print("write data: 1")
         time.sleep(0.5)
         numberOfLine = 0
         ack = [0x06,0x06,0x00]
         data = []
+        print('Listening rs232...')
         while True:
-            print('dtr:' + "{}".format(ser.dtr))
-            print('dsr:' + "{}".format(ser.dsr))
+            # print('dtr:' + "{}".format(ser.dtr))
+            # print('dsr:' + "{}".format(ser.dsr))
             response = ser.read().hex()
             # response = ser.readline().decode('ascii')
-            print("read data: " + response)
+            # print("read data: " + response)
             data.append(response)
+            # shakehand 
             if ''.join(data) == '050500':
                 print ('@LM received')
                 ser.write(serial.to_bytes(ack))
@@ -62,8 +62,6 @@ if ser.isOpen():
                 print('last block detected')
                 response = ser.read(2).hex()
                 data.append(response)
-                # response = ser.read().hex()
-                # data.append(response)
                 res = data[1:len(data)-2]
                 res = ''.join(res)
                 res = bytes.fromhex(res).decode('ASCII')
