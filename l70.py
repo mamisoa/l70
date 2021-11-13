@@ -87,11 +87,10 @@ except Exception as e:
 if ser.isOpen():
     try:
         ser.dtr = True
-        time.sleep(2)
+        time.sleep(0.2)
         ser.flushInput()
         ser.flushOutput()
         time.sleep(0.2)
-        numberOfLine = 0
         ack = [0x06,0x06,0x00]
         data = []
         fullstr = ''
@@ -118,7 +117,7 @@ if ser.isOpen():
                 info_json['dsr'] = str(ser.dsr)
                 asciiBlock = hexToAscii(data)
                 fullstr += asciiBlock
-                print(f'{asciiBlock}')
+                # print(f'{asciiBlock}')
                 checkMachine(asciiBlock) 
                 checkRx(asciiBlock) 
                 checkAdd(asciiBlock)
@@ -135,7 +134,7 @@ if ser.isOpen():
                 info_json['dsr'] = str(ser.dsr)
                 asciiBlock = hexToAscii(data)
                 fullstr += asciiBlock
-                print(f'{asciiBlock}')
+                # print(f'{asciiBlock}')
                 checkRx(asciiBlock) 
                 checkAdd(asciiBlock)
                 checkPrism(asciiBlock)
@@ -153,10 +152,19 @@ if ser.isOpen():
                 time.sleep(0.2)
                 info_json['dtr'] = str(ser.dtr)
                 info_json['dsr'] = str(ser.dsr)
-                print(f'dtr:{ser.dtr}')
-                print(f'dsr:{ser.dsr}')
+                # print(f'dtr:{ser.dtr}')
+                # print(f'dsr:{ser.dsr}')
                 data = []
-                break
+                info_json['data']= mesDict
+                print(json.dumps(info_json))
+                # reset link
+                mesDict = {'R': [], 'L' : [], 'pd': {}}
+                info_json = { 'machine': '', 'status': 'processing', 'error': '', 'data': {} }
+                ser.dtr = True
+                time.sleep(0.2)
+                ser.flushInput()
+                ser.flushOutput()
+                time.sleep(0.2)
         ser.close()
         print('Connection closed')
         info_json['status'] = 'Connection closed'
