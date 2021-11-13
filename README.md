@@ -8,3 +8,6 @@ Choose Auto-rs232 off
 
 # Protocol
 Protocol is NNKE from Nikon
+
+# dependancies
+pyserial
