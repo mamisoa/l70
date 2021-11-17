@@ -163,8 +163,11 @@ if ser.isOpen():
                 info_json['data']= mesDict
                 print(json.dumps(info_json))
                 # write file
+                now = datetime.now()
                 nsLM = Path('topconlm_temp.xml').read_text()
                 tempDict = { 
+                    "date": now.strftime("%Y-%m-%d"),
+                    "time": now.strftime("%H:%M:%S.%f"),
                     "sphR": mesDict['R'][0]['sph'],
                     "cylR": mesDict['R'][0]['cyl'],
                     "axisR": mesDict['R'][0]['axis'],
@@ -183,7 +186,6 @@ if ser.isOpen():
                     }
                 print('medDict',mesDict)
                 t = Template(nsLM).safe_substitute(tempDict)
-                now = datetime.now()
                 filename = f'M-SERIAL4174_{now.strftime("%Y%m%d")}_{now.strftime("%H%M%S%f")}_TOPCON_CL300_00.xml'
                 try:                    
                     with open(LM_FOLDER+filename,'w') as file:
