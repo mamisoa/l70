@@ -4,7 +4,7 @@ from datetime import datetime
 from string import Template
 from pathlib import Path
 
-LM_FOLDER = '/machines/cv5000/lm/cv-crist'
+LM_FOLDER = '/machines/cv5000/lm/cv-crist/'
 
 # useful
 # remove STX start txt and EOT/EOB end of txt or block and checksum
