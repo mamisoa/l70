@@ -188,7 +188,7 @@ if ser.isOpen():
                     with open(LM_FOLDER+filename,'w') as file:
                         file.write(t)
                 except Exception as e:
-                    return print('error:',str(e))
+                    print('error:',str(e))
                 # reset link
                 mesDict = {'R': [], 'L' : [], 'pd': {}}
                 info_json = { 'machine': '', 'status': 'processing', 'error': '', 'data': {} }
