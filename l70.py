@@ -183,6 +183,7 @@ if ser.isOpen():
                     "pdL": mesDict['L'][3]['pd'],
                     "pdb": mesDict['pd']
                     }
+                print('medDict',mesDict)
                 t = Template(nsLM).safe_substitute(tempDict)
                 filename = f'M-SERIAL4174_{now.strftime("%Y%m%d")}_{now.strftime("%H%M%S%f")}_TOPCON_CL300_00.xml'
                 try:                    
