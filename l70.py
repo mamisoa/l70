@@ -6,7 +6,7 @@ from pathlib import Path
 
 LM_FOLDER = '/machines/cv5000/lm/'
 
-#now = datetime.now()
+now = datetime.now()
 
 # useful
 # remove STX start txt and EOT/EOB end of txt or block and checksum
