@@ -4,9 +4,7 @@ from datetime import datetime
 from string import Template
 from pathlib import Path
 
-LM_FOLDER = '/machines/cv5000/lm/'
-
-now = datetime.now()
+LM_FOLDER = '/machines/cv5000/lm/cv-crist'
 
 # useful
 # remove STX start txt and EOT/EOB end of txt or block and checksum
@@ -185,6 +183,7 @@ if ser.isOpen():
                     }
                 print('medDict',mesDict)
                 t = Template(nsLM).safe_substitute(tempDict)
+                now = datetime.now()
                 filename = f'M-SERIAL4174_{now.strftime("%Y%m%d")}_{now.strftime("%H%M%S%f")}_TOPCON_CL300_00.xml'
                 try:                    
                     with open(LM_FOLDER+filename,'w') as file:
