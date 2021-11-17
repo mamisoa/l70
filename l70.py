@@ -1,5 +1,12 @@
 # test L70
 import serial, time, re, json
+from datetime import datetime
+from string import Template
+from pathlib import Path
+
+LM_FOLDER = '/machines/cv5000/lm/'
+
+#now = datetime.now()
 
 # useful
 # remove STX start txt and EOT/EOB end of txt or block and checksum
@@ -157,6 +164,31 @@ if ser.isOpen():
                 data = []
                 info_json['data']= mesDict
                 print(json.dumps(info_json))
+                # write file
+                nsLM = Path('topconlm_temp.xml').read_text()
+                tempDict = { 
+                    "sphR": mesDict['R'][0]['sph'],
+                    "cylR": mesDict['R'][0]['cyl'],
+                    "axisR": mesDict['R'][0]['axis'],
+                    "add1R": mesDict['R'][1]['add'],
+                    "HpR": mesDict['R'][2]['U'],
+                    "VpR": mesDict['R'][2]['I'],
+                    "pdR": mesDict['R'][3]['pd'],
+                    "sphL": mesDict['L'][0]['sph'],
+                    "cylL": mesDict['L'][0]['cyl'],
+                    "axisL": mesDict['L'][0]['axis'],
+                    "add1L": mesDict['L'][1]['add'],
+                    "HpL": mesDict['L'][2]['U'],
+                    "VpL": mesDict['L'][2]['I'],
+                    "pdL": mesDict['L'][3]['pd'],
+                    }
+                t = Template(nsSBJ).safe_substitute(tempDict)
+                filename = f'M-SERIAL4174_{now.strftime("%Y%m%d")}_{now.strftime("%H%M%S%f")}_TOPCON_CL300_00.xml'
+                try:                    
+                    with open(LM_FOLDER+filename,'w') as file:
+                        file.write(t)
+                except Exception as e:
+                    return print('error:',str(e))
                 # reset link
                 mesDict = {'R': [], 'L' : [], 'pd': {}}
                 info_json = { 'machine': '', 'status': 'processing', 'error': '', 'data': {} }
@@ -171,6 +203,7 @@ if ser.isOpen():
         # print(fullstr)
         info_json['data']= mesDict
         print(json.dumps(info_json))
+
     except Exception as e:
         info_json['error'] = str(e)
         print(json.dumps(info_json))
